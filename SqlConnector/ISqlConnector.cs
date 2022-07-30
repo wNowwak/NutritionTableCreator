@@ -2,6 +2,6 @@
 {
     public interface ISqlConnector
     {
-        bool ConnectToSql(ISqlConnectionData sqlConnectionData);
+        bool ConnectToSql(ISqlConnectionData sqlConnectionData,out string message);
     }
 }
