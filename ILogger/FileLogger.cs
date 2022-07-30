@@ -1,6 +1,6 @@
 ﻿namespace ILogger
 {
-    public class FileLogger : IUserLogger
+    internal class FileLogger : IUserLogger
     {
         public void Log(string message)
         {
