@@ -25,13 +25,20 @@ namespace SqlConnector
                 InitialCatalog = sqlConnectionData.DatabaseName,
                 UserID = sqlConnectionData.User,
                 Password = sqlConnectionData.Password,
+                IntegratedSecurity = false
             };
 
             try
             {
                 using (var connection = new SqlConnection(sqlConnectionStringBuilder.ConnectionString))
                 {
+                    var connectionString = connection.ConnectionString;
                     connection.Open();
+                    connection.Close();
+                    message = "Połaczenie ustawione";
+                    SaveConnectionString(connectionString);
+                    return true;
+
                 }
             }
             catch (Exception ex)
@@ -42,6 +49,22 @@ namespace SqlConnector
             }
             
             return false;
+        }
+
+        private void SaveConnectionString(string connectionString)
+        {
+            try
+            {
+                using (var sw = new StreamWriter("connectionToSql"))
+                {
+                    sw.WriteLine(connectionString);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log("Błąd w zapisie connection string "+ex.Message);
+                _logger.Log(ex.StackTrace);
+            }
         }
     }
 }
