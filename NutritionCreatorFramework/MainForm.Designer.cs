@@ -30,6 +30,8 @@
         {
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnGenerate = new System.Windows.Forms.Button();
+            this.btnDefNutrition = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -52,14 +54,36 @@
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
-            // Form1
+            // btnDefNutrition
+            // 
+            this.btnDefNutrition.Location = new System.Drawing.Point(12, 13);
+            this.btnDefNutrition.Name = "btnDefNutrition";
+            this.btnDefNutrition.Size = new System.Drawing.Size(187, 23);
+            this.btnDefNutrition.TabIndex = 2;
+            this.btnDefNutrition.Text = "Definiuj składnik";
+            this.btnDefNutrition.UseVisualStyleBackColor = true;
+            this.btnDefNutrition.Click += new System.EventHandler(this.btnDefNutrition_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(285, 415);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(218, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Ścieżka katalogu roboczego";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnDefNutrition);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.btnConnect);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Generator";
             this.ResumeLayout(false);
 
@@ -69,6 +93,8 @@
 
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.Button btnDefNutrition;
+        private System.Windows.Forms.Button button1;
     }
 }
 

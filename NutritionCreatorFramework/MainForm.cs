@@ -37,5 +37,17 @@ namespace NutritionCreatorFramework
         {
             _generator.GenerateLabel(@"");
         }
+
+        private void btnDefNutrition_Click(object sender, EventArgs e)
+        {
+            var newComponent = new NewComponent();
+            newComponent.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var newPath = new NewPath();
+            newPath.ShowDialog();
+        }
     }
 }
