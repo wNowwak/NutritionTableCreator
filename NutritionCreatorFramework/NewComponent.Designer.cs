@@ -1,4 +1,7 @@
-﻿namespace NutritionCreatorFramework
+﻿using NutritionCreatorFramework.DbConnection.MSSql;
+using System.Linq;
+
+namespace NutritionCreatorFramework
 {
     partial class NewComponent
     {
@@ -26,15 +29,18 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        /// 
+        
+       
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnSave = new System.Windows.Forms.Button();
             this.Nazwa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MassUnit = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.TotalMass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalUnit = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.btnSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,15 +57,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(547, 271);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(182, 360);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(193, 23);
-            this.btnSave.TabIndex = 2;
-            this.btnSave.Text = "Zapisz składnik";
-            this.btnSave.UseVisualStyleBackColor = true;
             // 
             // Nazwa
             // 
@@ -90,6 +87,16 @@
             this.TotalUnit.Name = "TotalUnit";
             this.TotalUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.TotalUnit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(182, 360);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(193, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Zapisz składnik";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // NewComponent
             // 

@@ -54,8 +54,9 @@ go
 /* Table: Jednostki                                             */
 /*==============================================================*/
 create table Jednostki (
-   Jednostka_Id         int                  not null,
+   Jednostka_Id         int        IDENTITY(1,1)          not null,
    Jednostka_Nazwa      varchar(1024)        not null,
+   Jednostka_Mnoznik	int					 not null,
    constraint PK_JEDNOSTKI primary key nonclustered (Jednostka_Id)
 )
 go
@@ -64,7 +65,7 @@ go
 /* Table: Produkty                                              */
 /*==============================================================*/
 create table Produkty (
-   Produkt_Id           int                  not null,
+   Produkt_Id           int         IDENTITY(1,1)         not null,
    Produkt_Nazwa        varchar(1024)        not null,
    constraint PK_PRODUKTY primary key nonclustered (Produkt_Id)
 )
@@ -74,10 +75,10 @@ go
 /* Table: Receptury                                             */
 /*==============================================================*/
 create table Receptury (
-   Receptura_Id         int                  not null,
-   Jednostka_Id         int                  null,
-   Produkt_Id           int                  null,
-   Skladnik_Id          int                  null,
+   Receptura_Id         int        IDENTITY(1,1)          not null,
+   Jednostka_Id         int                  not null,
+   Produkt_Id           int                  not null,
+   Skladnik_Id          int                  not null,
    Ilosc                int                  not null,
    constraint PK_RECEPTURY primary key nonclustered (Receptura_Id)
 )
@@ -103,7 +104,7 @@ go
 /* Table: Skladniki                                             */
 /*==============================================================*/
 create table Skladniki (
-   Skladnik_Id          int                  not null,
+   Skladnik_Id          int        IDENTITY(1,1)          not null,
    Skaldnik_Nazwa       varchar(1024)        not null,
    constraint PK_SKLADNIKI primary key nonclustered (Skladnik_Id)
 )

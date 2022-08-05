@@ -8,12 +8,14 @@ namespace NutritionCreatorFramework.Units
 {
     internal class Unit : IUnit
     {
+        public int Id { get; }
         public string Name { get;}
         public int Counter { get; }
-        public Unit( string name, int counter)
+        public Unit(string id, string name, string counter)
         {
+            Id = int.Parse(id);
             Name = name;
-            Counter = counter;
+            Counter = int.Parse(counter);
         }
 
 

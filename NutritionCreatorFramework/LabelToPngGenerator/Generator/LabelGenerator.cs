@@ -11,7 +11,7 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
         public void GenerateLabel(string path)
         {
             var htmlContent = string.Empty;
-            using (var reader = new StreamReader(@"C:\Users\nowwa\source\repos\NutritionCreator\label.html"))
+            using (var reader = new StreamReader(path+@"\label.html"))
             {
                 htmlContent = reader.ReadToEnd().Trim();
             }

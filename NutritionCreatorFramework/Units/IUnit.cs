@@ -8,6 +8,7 @@ namespace NutritionCreatorFramework.Units
 {
     public interface IUnit
     {
+        int Id { get; }
         string Name { get; }
         int Counter { get; }
     }

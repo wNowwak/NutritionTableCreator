@@ -16,7 +16,7 @@ namespace NutritionCreatorFramework
 {
     public partial class DataBaseConnector : Form
     {
-        private const string connectionSqlPath = "connectionToSql";
+        private const string connectionSqlPath = StaticNames.connectionToSql;
         private readonly IUserLogger _logger;
         private readonly ISqlConnector _connector;
         public DataBaseConnector(IUserLogger logger, ISqlConnector connector)

@@ -15,6 +15,7 @@ namespace NutritionCreatorFramework
         private readonly ILabelGenerator _generator;
         private readonly IUserLogger _logger;
         private readonly ISqlConnector _sqlConnector;
+        private readonly ISqlRepository _sqlRepository;
         public MainForm()
         {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace NutritionCreatorFramework
                 _logger = kernel.Get<ILoggerFactory>().Create("file");
 
                 _sqlConnector = kernel.Get<ISqlConnector>();
+                _sqlRepository = kernel.Get<ISqlRepository>();
             }
         }
 
@@ -35,12 +37,12 @@ namespace NutritionCreatorFramework
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            _generator.GenerateLabel(@"");
+            _generator.GenerateLabel(@"C:\Users\nowwa\source\repos\NutritionCreator");
         }
 
         private void btnDefNutrition_Click(object sender, EventArgs e)
         {
-            var newComponent = new NewComponent();
+            var newComponent = new NewProduct(_sqlRepository);
             newComponent.ShowDialog();
         }
 

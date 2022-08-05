@@ -9,6 +9,7 @@ namespace NutritionCreatorFramework.DbConnection.Bindings
         public override void Load()
         {
             Bind<ISqlConnector>().To<MSSqlConnector>();
+            Bind<ISqlRepository>().To<MSSqlRepository>();
         }
     }
 }
