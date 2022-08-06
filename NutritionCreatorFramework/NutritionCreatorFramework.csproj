@@ -89,6 +89,10 @@
     <Compile Include="DataBaseConnector.Designer.cs">
       <DependentUpon>DataBaseConnector.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataObjects\IIngredient.cs" />
+    <Compile Include="DataObjects\Ingredient.cs" />
+    <Compile Include="DataObjects\IProduct.cs" />
+    <Compile Include="DataObjects\Product.cs" />
     <Compile Include="DbConnection\Bindings\MSSqlConnectorBindings.cs" />
     <Compile Include="DbConnection\Interfaces\ISqlConnectionData.cs" />
     <Compile Include="DbConnection\Interfaces\ISqlConnector.cs" />
@@ -125,7 +129,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Queries.resx</DependentUpon>
+    </Compile>
     <Compile Include="StaticNames.cs" />
+    <Compile Include="StringExtensionMethod.cs" />
     <Compile Include="Units\IUnit.cs" />
     <Compile Include="Units\Unit.cs" />
     <Compile Include="UserLogger\Bindings\UserLoggerBindings.cs" />
@@ -157,6 +167,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Queries.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Queries.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="NutritionCreatorFramework_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -183,6 +197,10 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Queries\AddProduct.sql" />
+    <Content Include="Queries\AddReciepe.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

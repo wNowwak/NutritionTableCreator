@@ -1,4 +1,5 @@
-﻿using NutritionCreatorFramework.DbConnection.Interfaces;
+﻿using NutritionCreatorFramework.DataObjects;
+using NutritionCreatorFramework.DbConnection.Interfaces;
 using NutritionCreatorFramework.Units;
 using NutritionCreatorFramework.UserLogger.Interfaces;
 using System;
@@ -71,8 +72,9 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
             return false;
         }
 
-        public bool AddProduct(string query, SqlParameter sqlParameter)
+        public bool AddProduct(string query, IEnumerable<SqlParameter> sqlParameter, out int newId)
         {
+            newId = 0;
             var sqlConnection = new SqlConnection(ConnectionString);
             if (sqlConnection.State != ConnectionState.Open)
                 sqlConnection.Open();
@@ -80,10 +82,15 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
             {
                 try
                 {
-                    cmd.CommandText = query;
-                    cmd.Parameters.Add(sqlParameter);
+                    
+                    cmd.CommandText = query.Trim();
+                    foreach (var parameter in sqlParameter)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
                     cmd.Prepare();
-                    cmd.ExecuteNonQuery();
+                    var result = cmd.ExecuteScalar();
+                    int.TryParse(result?.ToString(), out newId);
                     return true;
                 }
                 catch (Exception e )
@@ -93,6 +100,45 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
                 }
             }
 
+        }
+
+        public IEnumerable<string> GetComponents()
+        {
+            var query = @"SELECT  * FROM Skladniki";
+
+            var sqlConnection = new SqlConnection(ConnectionString);
+            if (sqlConnection.State != ConnectionState.Open)
+                sqlConnection.Open();
+
+            var result = new List<string>();
+            using (var cmd = sqlConnection.CreateCommand())
+            {
+                try
+                {
+                    cmd.CommandText = query;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader["Skaldnik_Nazwa"].ToString());
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Log($"Error while product adding {e.Message}");
+                    return null;
+                }
+            }
+            return result;
+
+        }
+
+        public IEnumerable<IProduct> GetProducts()
+        {
+
+
+            return null;
         }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using NutritionCreatorFramework.DbConnection.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NutritionCreatorFramework
@@ -24,7 +19,8 @@ namespace NutritionCreatorFramework
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            
+
+            bool result = false;
 
             foreach (DataGridViewRow row in products.Rows)
             {
@@ -33,17 +29,24 @@ namespace NutritionCreatorFramework
                     continue;
                 string query = "INSERT INTO Skladniki (Skaldnik_Nazwa) VALUES(@PRODUCT_VALUE)";
                 SqlParameter sqlParameter = new SqlParameter() { ParameterName = "@PRODUCT_VALUE", Value = value, Size = 1024, DbType = DbType.String };
-                var result = _sqlRepository.AddProduct(query, sqlParameter);
+                result = _sqlRepository.AddProduct(query, new List<SqlParameter>() { sqlParameter }, out int newId);
                 if (!result)
                 {
                     errorLbl.Text = $"Błąd podczas zapisu produktu: {value}";
                     errorLbl.Visible = true;
+                    errorLbl.ForeColor = System.Drawing.Color.Red;
                     this.Refresh();
                 }
                 
                     
             }
-            
+            if(result)
+            {
+                errorLbl.Text = $"Zapisano pomyślnie";
+                errorLbl.Visible = true;
+                errorLbl.ForeColor = System.Drawing.Color.Green;
+                this.Refresh();
+            }
 
 
         }

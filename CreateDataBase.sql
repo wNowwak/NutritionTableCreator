@@ -76,10 +76,12 @@ go
 /*==============================================================*/
 create table Receptury (
    Receptura_Id         int        IDENTITY(1,1)          not null,
-   Jednostka_Id         int                  not null,
    Produkt_Id           int                  not null,
    Skladnik_Id          int                  not null,
-   Ilosc                int                  not null,
+   Ilosc                decimal(10,4)                  not null,
+   Jednostka_Id         int                  not null,
+   Ilosc_Gotowa         decimal(10,4)                  not null,
+   JednostkaGotowa_Id         int                  not null,
    constraint PK_RECEPTURY primary key nonclustered (Receptura_Id)
 )
 go
@@ -110,3 +112,10 @@ create table Skladniki (
 )
 go
 
+
+
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('kilogram',3)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('miligram', -3)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('gram' ,0)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('mikrogram', -6)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('dekagram', 1)

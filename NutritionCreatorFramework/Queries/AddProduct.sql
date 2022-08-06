@@ -1,0 +1,1 @@
+﻿INSERT INTO Produkty (Produkt_Nazwa) VALUES (@ProductValue)  SELECT SCOPE_IDENTITY() AS 'NEWID'

@@ -32,6 +32,7 @@
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnDefNutrition = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnAddRecipt = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -74,11 +75,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // btnAddRecipt
+            // 
+            this.btnAddRecipt.Location = new System.Drawing.Point(12, 42);
+            this.btnAddRecipt.Name = "btnAddRecipt";
+            this.btnAddRecipt.Size = new System.Drawing.Size(187, 23);
+            this.btnAddRecipt.TabIndex = 4;
+            this.btnAddRecipt.Text = "Dodaj recepturę";
+            this.btnAddRecipt.UseVisualStyleBackColor = true;
+            this.btnAddRecipt.Click += new System.EventHandler(this.btnAddRecipt_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnAddRecipt);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnDefNutrition);
             this.Controls.Add(this.btnGenerate);
@@ -95,6 +107,7 @@
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.Button btnDefNutrition;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAddRecipt;
     }
 }
 

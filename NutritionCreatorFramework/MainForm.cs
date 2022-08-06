@@ -51,5 +51,11 @@ namespace NutritionCreatorFramework
             var newPath = new NewPath();
             newPath.ShowDialog();
         }
+
+        private void btnAddRecipt_Click(object sender, EventArgs e)
+        {
+            var newPath = new NewComponent(_sqlRepository);
+            newPath.ShowDialog();
+        }
     }
 }

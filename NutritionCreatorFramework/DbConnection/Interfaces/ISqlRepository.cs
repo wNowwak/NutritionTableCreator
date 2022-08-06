@@ -1,4 +1,5 @@
-﻿using NutritionCreatorFramework.Units;
+﻿using NutritionCreatorFramework.DataObjects;
+using NutritionCreatorFramework.Units;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -11,8 +12,12 @@ namespace NutritionCreatorFramework.DbConnection.Interfaces
     public interface ISqlRepository
     {
         IEnumerable<IUnit> GetUnits();
+        IEnumerable<string> GetComponents();
+        IEnumerable<IProduct> GetProducts();
+
         bool AddComponent();
 
-        bool AddProduct(string query, SqlParameter sqlParameter);
+        bool AddProduct(string query, IEnumerable<SqlParameter> sqlParameter, out int newId);
+        
     }
 }
