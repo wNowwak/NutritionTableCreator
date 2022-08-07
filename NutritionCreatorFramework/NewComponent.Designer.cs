@@ -35,15 +35,16 @@ namespace NutritionCreatorFramework
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnSave = new System.Windows.Forms.Button();
             this.ProductNameField = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MassUnit = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.btnSave = new System.Windows.Forms.Button();
             this.txtReadyMass = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.unitDDL = new System.Windows.Forms.ComboBox();
             this.txtProductName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblError = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,16 +60,6 @@ namespace NutritionCreatorFramework
             this.dataGridView1.Size = new System.Drawing.Size(547, 271);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(182, 360);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(193, 23);
-            this.btnSave.TabIndex = 2;
-            this.btnSave.Text = "Zapisz składnik";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // ProductNameField
             // 
@@ -91,6 +82,16 @@ namespace NutritionCreatorFramework
             this.MassUnit.Name = "MassUnit";
             this.MassUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.MassUnit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(182, 346);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(193, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Zapisz składnik";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // txtReadyMass
             // 
@@ -132,11 +133,21 @@ namespace NutritionCreatorFramework
             this.label2.TabIndex = 7;
             this.label2.Text = "Nazwa produktu";
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Location = new System.Drawing.Point(16, 377);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(39, 13);
+            this.lblError.TabIndex = 8;
+            this.lblError.Text = "lblError";
+            // 
             // NewComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 395);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtProductName);
             this.Controls.Add(this.unitDDL);
@@ -164,5 +175,6 @@ namespace NutritionCreatorFramework
         private System.Windows.Forms.ComboBox unitDDL;
         private System.Windows.Forms.TextBox txtProductName;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblError;
     }
 }

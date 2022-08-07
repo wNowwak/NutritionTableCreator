@@ -26,6 +26,7 @@ namespace NutritionCreatorFramework
             InitializeComponent();
             SetUnits();
             AddComponent();
+            lblError.Visible = false;
         }
         private object[] getUnitsName()
         {
@@ -44,9 +45,11 @@ namespace NutritionCreatorFramework
         public void AddComponent()
         {
             var components = _sqlRepository.GetComponents();
+            var products  = _sqlRepository.GetProducts();
             foreach (var component in components)
                 this.ProductNameField.Items.AddRange(component);
-
+            foreach (var product in products)
+                this.ProductNameField.Items.AddRange(product.Name);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -76,12 +79,27 @@ namespace NutritionCreatorFramework
                         parameters.Add(CreateSqlParameter("@TOTAL_UNIT_ID", totalUnitId, "int"));
 
 
-                        _sqlRepository.AddProduct(query, parameters, out int x);
+                        var result =  _sqlRepository.AddProduct(query, parameters, out int x);
+                        if (result)
+                        {
+                            lblError.Visible = true;
+                            lblError.Text = "Dodano pomyślnie";
+                            lblError.ForeColor = Color.Green;
+                            this.Refresh();
+                        }
+                        
                     }
                 }
                
             }
-            
+            else
+            {
+                lblError.Visible = true;
+                lblError.Text = newId == -2146232060 ? "Podany produkt już istnieje" : "Błąd w zapisie produktu";
+                lblError.ForeColor = Color.Red;
+                this.Refresh();
+            }
+
 
         }
 

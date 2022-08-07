@@ -57,6 +57,8 @@ create table Jednostki (
    Jednostka_Id         int        IDENTITY(1,1)          not null,
    Jednostka_Nazwa      varchar(1024)        not null,
    Jednostka_Mnoznik	int					 not null,
+   Jednostka_IsLiquid bit not null,
+
    constraint PK_JEDNOSTKI primary key nonclustered (Jednostka_Id)
 )
 go
@@ -114,8 +116,11 @@ go
 
 
 
-INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('kilogram',3)
-INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('miligram', -3)
-INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('gram' ,0)
-INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('mikrogram', -6)
-INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik) VALUES ('dekagram', 1)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid) VALUES ('kilogram',3,0)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid) VALUES ('miligram', -3,0)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid) VALUES ('gram' ,0,0)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid) VALUES ('mikrogram', -6,0)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid) VALUES ('dekagram', 1,0)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid) VALUES ('litr',0,1)
+INSERT INTO Jednostki (Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid) VALUES ('mililitr', -3,1)
+

@@ -201,6 +201,7 @@
   <ItemGroup>
     <Content Include="Queries\AddProduct.sql" />
     <Content Include="Queries\AddReciepe.sql" />
+    <Content Include="Queries\GetProducts.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

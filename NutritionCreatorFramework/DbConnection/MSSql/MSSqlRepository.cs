@@ -93,6 +93,12 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
                     int.TryParse(result?.ToString(), out newId);
                     return true;
                 }
+                catch (SqlException sqlEx)
+                {
+                    newId = sqlEx.ErrorCode;
+                    _logger.Log($"Error while product adding {sqlEx.Message}");
+                    return false;
+                }
                 catch (Exception e )
                 {
                     _logger.Log($"Error while product adding {e.Message}");
@@ -136,9 +142,50 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
 
         public IEnumerable<IProduct> GetProducts()
         {
-
-
-            return null;
+            var query = Queries.GetProducts;
+            var sqlConnection = new SqlConnection(ConnectionString);
+            if (sqlConnection.State != ConnectionState.Open)
+                sqlConnection.Open();
+            var result = new List<IProduct>();
+            using (var cmd = sqlConnection.CreateCommand())
+            {
+                try
+                {
+                    cmd.CommandText = query;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        int lastId = 0;
+                        IProduct product = null;
+                        while (reader.Read())
+                        {
+                            var productId = StringExtensionMethod.GetIntFromString(reader["PRID"].ToString());
+                            if(productId != lastId)
+                            {
+                                var productName = reader["NAZWA"].ToString();
+                                var quantity = StringExtensionMethod.GetDecimalFromString(reader["QTY"].ToString());
+                                
+                                var unit = new Unit(reader["JMID"].ToString(), reader["JMNAME"].ToString(), reader["JMMN"].ToString());
+                                product = new Product(productName,new List<IIngredient>(), quantity, unit);
+                                result.Add(product);
+                                lastId = productId;
+                            }
+                            string name = reader["SKL_NAZWA"].ToString();
+                            int id = StringExtensionMethod.GetIntFromString(reader["SKLID"].ToString());
+                            decimal ingredientQuantity = StringExtensionMethod.GetDecimalFromString(reader["ILOSC"].ToString());
+                            IUnit ingredientUnit = new Unit(reader["JID"].ToString(), reader["JNAME"].ToString(), reader["JMN"].ToString());
+                            var ingerdient = new Ingredient(name, id, ingredientQuantity, ingredientUnit);
+                            result.Last().Ingredients.Add(ingerdient);
+                            
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Log($"Error while product adding {e.Message}");
+                    return null;
+                }
+            }
+            return result;
         }
     }
 }

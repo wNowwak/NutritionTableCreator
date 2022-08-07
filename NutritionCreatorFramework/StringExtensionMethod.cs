@@ -15,5 +15,10 @@ namespace NutritionCreatorFramework
             decimal result = decimal.TryParse(number.Replace(',','.'),style, CultureInfo.InvariantCulture, out decimal x) ? x : 0; 
             return result;
         }
+        public static int GetIntFromString(string number)
+        {
+            int result = int.TryParse(number, out int x) ? x : 0;
+            return result;
+        }
     }
 }

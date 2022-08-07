@@ -61,7 +61,7 @@ namespace NutritionCreatorFramework {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;INSERT INTO Produkty (Produkt_Nazwa) VALUES (@ProductValue)  SELECT SCOPE_IDENTITY() AS &apos;NEWID&apos;&quot;.
+        ///   Looks up a localized string similar to INSERT INTO Produkty (Produkt_Nazwa) VALUES (@ProductValue)  SELECT SCOPE_IDENTITY() AS &apos;NEWID&apos;.
         /// </summary>
         internal static string AddProduct {
             get {
@@ -72,11 +72,20 @@ namespace NutritionCreatorFramework {
         /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Receptury (Produkt_Id, Skladnik_Id, Ilosc, Jednostka_Id, Ilosc_Gotowa, JednostkaGotowa_Id)
         ///	VALUES(@PRODUCT_ID, (SELECT TOP 1 Skladnik_Id FROM Skladniki WHERE Skaldnik_Nazwa = @SKLADNIK_NAZWA), 
-        ///	@UNIT_ID,	@COMPONENT_QUANTITY, @TOTAL_MASS, @TOTAL_UNIT_ID).
+        ///	@COMPONENT_QUANTITY, @UNIT_ID, @TOTAL_MASS, @TOTAL_UNIT_ID).
         /// </summary>
         internal static string AddReciepe {
             get {
                 return ResourceManager.GetString("AddReciepe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT Produkt_Id, Produkt_Nazwa FROM Produkty.
+        /// </summary>
+        internal static string GetProducts {
+            get {
+                return ResourceManager.GetString("GetProducts", resourceCulture);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NutritionCreatorFramework.Units;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,9 @@ namespace NutritionCreatorFramework.DataObjects
     public interface IProduct
     {
         string Name { get; }
-        IEnumerable<IIngredient>  Ingredients { get; }
+        IList<IIngredient>  Ingredients { get; }
         decimal Quantity { get; }
+        IUnit Unit { get; }
 
     }
 }

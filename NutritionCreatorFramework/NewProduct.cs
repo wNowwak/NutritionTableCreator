@@ -32,7 +32,7 @@ namespace NutritionCreatorFramework
                 result = _sqlRepository.AddProduct(query, new List<SqlParameter>() { sqlParameter }, out int newId);
                 if (!result)
                 {
-                    errorLbl.Text = $"Błąd podczas zapisu produktu: {value}";
+                    errorLbl.Text = $"Błąd podczas zapisu produktu: {value} {(newId == -2146232060 ? "produkt już istnieje" : String.Empty)}";
                     errorLbl.Visible = true;
                     errorLbl.ForeColor = System.Drawing.Color.Red;
                     this.Refresh();
