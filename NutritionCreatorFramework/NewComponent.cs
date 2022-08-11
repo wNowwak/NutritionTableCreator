@@ -1,4 +1,6 @@
-﻿using NutritionCreatorFramework.DbConnection.Interfaces;
+﻿using NutritionCreatorFramework.DataObjects;
+using NutritionCreatorFramework.DbConnection.Interfaces;
+using NutritionCreatorFramework.LabelToPngGenerator.Interfaces;
 using NutritionCreatorFramework.Units;
 using System;
 using System.Collections.Generic;
@@ -16,17 +18,24 @@ namespace NutritionCreatorFramework
 {
     public partial class NewComponent : Form
     {
+        private readonly ILabelGenerator _generator;
         private IEnumerable<IUnit> units = new List<IUnit>();
         private readonly ISqlRepository _sqlRepository;
-       
-        public NewComponent(ISqlRepository sqlRepository)
+        private IEnumerable<IProduct> Products = new List<IProduct>();
+        private IEnumerable<string> Components = new List<string>();
+        private readonly string _workingDirectoryPath;
+
+
+        public NewComponent(ISqlRepository sqlRepository, ILabelGenerator generator, string workingDirectoryPath)
         {
             
             _sqlRepository = sqlRepository;
+            _generator = generator;
+            _workingDirectoryPath = workingDirectoryPath;
             InitializeComponent();
             SetUnits();
             AddComponent();
-            lblError.Visible = false;
+            HideUnusedLabels();
         }
         private object[] getUnitsName()
         {
@@ -40,15 +49,16 @@ namespace NutritionCreatorFramework
             var units = getUnitsName();
             this.MassUnit.Items.AddRange(units);
             this.unitDDL.Items.AddRange(units);
+            this.boxUnit.Items.AddRange(units);
         }
 
         public void AddComponent()
         {
-            var components = _sqlRepository.GetComponents();
-            var products  = _sqlRepository.GetProducts();
-            foreach (var component in components)
+            Components = _sqlRepository.GetComponents();
+            Products  = _sqlRepository.GetProducts();
+            foreach (var component in Components)
                 this.ProductNameField.Items.AddRange(component);
-            foreach (var product in products)
+            foreach (var product in Products)
                 this.ProductNameField.Items.AddRange(product.Name);
         }
 
@@ -57,40 +67,44 @@ namespace NutritionCreatorFramework
             string query = Queries.AddProduct;
             var parameter = new SqlParameter() { ParameterName = "@ProductValue", Value = txtProductName.Text , DbType = DbType.String, Size = 1024 };
             _sqlRepository.AddProduct(query, new List<SqlParameter>() { parameter }, out int newId);
+            var ingredients = new List<IIngredient>();
             if(newId > 0)
             {
-                var totalMass = StringExtensionMethod.GetDecimalFromString(txtReadyMass.Text ?? String.Empty);
-                var totalUnitId = units.Where(unit => unit.Name.Equals(unitDDL.Text ?? String.Empty)).FirstOrDefault()?.Id;
-                query = Queries.AddReciepe;
+                
+                var totalUnitId = units.Where(unit => unit.Name.Equals(unitDDL.Text ?? String.Empty)).FirstOrDefault()?.Id ?? 0;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    var parameters = new List<SqlParameter>();
                     var productName = row.Cells[0]?.Value?.ToString();
                     var productContent = StringExtensionMethod.GetDecimalFromString(row.Cells[1]?.Value?.ToString() ?? String.Empty);
                     var massUnit = row.Cells[2]?.Value?.ToString();
-
+                    bool result = false;
+                    var unitProduct = units.Where(x => x.Name == massUnit).FirstOrDefault();
                     if(!string.IsNullOrEmpty(productName) && !string.IsNullOrEmpty(massUnit) && productContent > 0  && totalUnitId > 0)
                     {
-                        parameters.Add(CreateSqlParameter("@PRODUCT_ID", newId, "int"));
-                        parameters.Add(CreateSqlParameter("@SKLADNIK_NAZWA", productName, "string", 1024));
-                        parameters.Add(CreateSqlParameter("@UNIT_ID", units.Where(uni => uni.Name.Equals(massUnit)).FirstOrDefault().Id, "int"));
-                        parameters.Add(CreateSqlParameter("@COMPONENT_QUANTITY", productContent, "decimal"));
-                        parameters.Add(CreateSqlParameter("@TOTAL_MASS", totalMass, "decimal"));
-                        parameters.Add(CreateSqlParameter("@TOTAL_UNIT_ID", totalUnitId, "int"));
-
-
-                        var result =  _sqlRepository.AddProduct(query, parameters, out int x);
-                        if (result)
+                        if (Components.Contains(productName))
                         {
-                            lblError.Visible = true;
-                            lblError.Text = "Dodano pomyślnie";
-                            lblError.ForeColor = Color.Green;
-                            this.Refresh();
+                            result = SaveReciepeToDataBase(newId, productName, massUnit, productContent, totalUnitId);
+                            ingredients.Add(new Ingredient(productName, newId, productContent, unitProduct));
+                        }
+                        else
+                        {
+                            var product = Products.Where(x => x.Name.Equals(productName)).FirstOrDefault();
+                            if (product != null)
+                            {
+                                foreach (var ingerdient in product.GetIngredients())
+                                {
+                                    decimal qty = Convert.ToDecimal(Math.Pow(10, units.Where(x => x.Name == massUnit).Select(x => x.Counter).FirstOrDefault())) * ingerdient.Quantity * productContent;
+                                    qty = ConvertToNewUnit(qty, out IUnit newUnit);
+                                    result = SaveReciepeToDataBase(newId, ingerdient.Name, newUnit.Name, qty, totalUnitId);
+                                    ingredients.Add(new Ingredient(ingerdient.Name, newId, qty, newUnit));
+                                }
+                            }
                         }
                         
                     }
                 }
-               
+                _generator.GenerateLabel(_workingDirectoryPath, ingredients);
+
             }
             else
             {
@@ -105,7 +119,7 @@ namespace NutritionCreatorFramework
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            Console.WriteLine("AALA");
+           
         }
 
 
@@ -128,6 +142,102 @@ namespace NutritionCreatorFramework
                 parameter.Scale = 4;
             }
             return parameter;
+        }
+
+        private bool SaveReciepeToDataBase(int newId, string productName, string massUnit, decimal productContent, int totalUnitId)
+        {
+            var parameters = new List<SqlParameter>();
+            string query = Queries.AddReciepe;
+            var totalMass = StringExtensionMethod.GetDecimalFromString(txtReadyMass.Text ?? String.Empty);
+
+            parameters.Add(CreateSqlParameter("@PRODUCT_ID", newId, "int"));
+            parameters.Add(CreateSqlParameter("@SKLADNIK_NAZWA", productName, "string", 1024));
+            parameters.Add(CreateSqlParameter("@UNIT_ID", units.Where(uni => uni.Name.Equals(massUnit)).FirstOrDefault().Id, "int"));
+            parameters.Add(CreateSqlParameter("@COMPONENT_QUANTITY", productContent, "decimal"));
+            parameters.Add(CreateSqlParameter("@TOTAL_MASS", totalMass, "decimal"));
+            parameters.Add(CreateSqlParameter("@TOTAL_UNIT_ID", totalUnitId, "int"));
+
+
+            var result = _sqlRepository.AddProduct(query, parameters, out int x);
+            if (result)
+            {
+                lblError.Visible = true;
+                lblError.Text = "Dodano pomyślnie";
+                lblError.ForeColor = Color.Green;
+                this.Refresh();
+            }
+            return result;
+        }
+
+        private decimal ConvertToNewUnit(decimal quantity, out IUnit unit)
+        {
+            unit = null;
+            decimal counter;
+            if (quantity >= Convert.ToDecimal(Math.Pow(10, 3)))
+            {
+                counter = 1000;
+                quantity = quantity / counter;
+
+                unit = GetUnit(3);
+                return quantity;
+            }
+            else if(quantity < 0 && quantity >= Convert.ToDecimal(Math.Pow(10, -6)))
+            {
+                counter = Convert.ToDecimal(Math.Pow(10, -3));
+                quantity = quantity / counter;
+                unit= GetUnit(-3);
+                return quantity;
+            }
+            else if(quantity < Convert.ToDecimal(Math.Pow(10, -6)))
+            {
+                counter = Convert.ToDecimal(Math.Pow(10, -6));
+                quantity = quantity / counter;
+                unit= GetUnit(-6);
+                return quantity;
+            }
+            else
+            {
+                unit = GetUnit(0);
+                return quantity;
+            }
+
+            
+
+        }
+        private IUnit GetUnit(int counter)
+        {
+            return units.Where(x => x.Counter == counter && !x.IsLiquid).FirstOrDefault();
+        }
+        private IUnit GetUnit(string name)
+        {
+            return units.Where(x => x.Name == name).FirstOrDefault();
+        }
+
+        private void unitDDL_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var ddl = (ComboBox)sender;
+            var unit = GetUnit(ddl.SelectedItem.ToString());
+            if(unit != null)
+            {
+                    lblBoxSize.Visible = unit.IsLiquid;
+                    lblPortionCount.Visible = unit.IsLiquid;
+                    txtProtionCount.Visible = unit.IsLiquid;
+                    txtBoxSize.Visible = unit.IsLiquid;
+                    boxUnit.Visible = unit.IsLiquid;
+
+                
+
+            }
+            
+        }
+        private void HideUnusedLabels()
+        {
+            lblBoxSize.Visible = false;
+            lblPortionCount.Visible = false;
+            txtProtionCount.Visible = false;
+            txtBoxSize.Visible = false;
+            boxUnit.Visible = false;
+            lblError.Visible = false;
         }
     }
 }

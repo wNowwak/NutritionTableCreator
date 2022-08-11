@@ -36,18 +36,22 @@ namespace NutritionCreatorFramework
             this.Refresh();
                 
         }
-
-        private void LoadPath()
+        public string GetPath()
         {
             if (File.Exists("workingPath"))
             {
                 using (var sr = new StreamReader("workingPath"))
                 {
-                    txtPath.Text = sr.ReadToEnd();
-                    this.Refresh();
+                   return sr.ReadToEnd().Trim();
                 }
             }
-            
+            return string.Empty;
+        }
+
+        private void LoadPath()
+        {
+            txtPath.Text = GetPath();
+            this.Refresh();
         }
     }
 }

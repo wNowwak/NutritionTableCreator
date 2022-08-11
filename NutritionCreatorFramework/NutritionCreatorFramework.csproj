@@ -143,6 +143,9 @@
     <Compile Include="UserLogger\Interfaces\ILoggerFactory.cs" />
     <Compile Include="UserLogger\Interfaces\IUserLogger.cs" />
     <Compile Include="UserLogger\Loggers\FileLogger.cs" />
+    <Compile Include="HtmlFactory\HtmlCell.cs" />
+    <Compile Include="HtmlFactory\HtmlRow.cs" />
+    <Compile Include="HtmlFactory\HtmlGenerator.cs" />
     <EmbeddedResource Include="DataBaseConnector.resx">
       <DependentUpon>DataBaseConnector.cs</DependentUpon>
     </EmbeddedResource>
@@ -202,6 +205,7 @@
     <Content Include="Queries\AddProduct.sql" />
     <Content Include="Queries\AddReciepe.sql" />
     <Content Include="Queries\GetProducts.sql" />
+    <Content Include="Queries\GetUnits.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

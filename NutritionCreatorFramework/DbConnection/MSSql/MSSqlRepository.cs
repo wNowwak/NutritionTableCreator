@@ -37,7 +37,7 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
             var result = new List<IUnit>();
             using (var cmd = sqlConnection.CreateCommand())
             {
-                cmd.CommandText = "SELECT Jednostka_Id, Jednostka_Nazwa, Jednostka_Mnoznik FROM Jednostki ORDER BY Jednostka_Mnoznik";
+                cmd.CommandText = Queries.GetUnits;
                 using (var reader = cmd.ExecuteReader())
                 {
                     
@@ -47,8 +47,8 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
                         var id = reader["Jednostka_Id"].ToString();
                         var name = reader["Jednostka_Nazwa"].ToString();
                         var counter = reader["Jednostka_Mnoznik"].ToString();
-
-                        var unit = new Unit(id, name, counter);
+                        var isLiquid = bool.TryParse(reader["Jednostka_IsLiquid"].ToString(), out bool x) ? x : false;
+                        var unit = new Unit(id, name, counter, isLiquid);
                         result.Add(unit);     
                     }
                 }
@@ -164,16 +164,16 @@ namespace NutritionCreatorFramework.DbConnection.MSSql
                                 var productName = reader["NAZWA"].ToString();
                                 var quantity = StringExtensionMethod.GetDecimalFromString(reader["QTY"].ToString());
                                 
-                                var unit = new Unit(reader["JMID"].ToString(), reader["JMNAME"].ToString(), reader["JMMN"].ToString());
-                                product = new Product(productName,new List<IIngredient>(), quantity, unit);
+                                var unit = new Unit(reader["JMID"].ToString(), reader["JMNAME"].ToString(), reader["JMMN"].ToString(), reader["JMISL"].ToString() == "1");
+                                product = new Product(productName,new List<IIngredient>(), quantity * Convert.ToDecimal(Math.Pow(10, unit.Counter)), unit);
                                 result.Add(product);
                                 lastId = productId;
                             }
                             string name = reader["SKL_NAZWA"].ToString();
                             int id = StringExtensionMethod.GetIntFromString(reader["SKLID"].ToString());
                             decimal ingredientQuantity = StringExtensionMethod.GetDecimalFromString(reader["ILOSC"].ToString());
-                            IUnit ingredientUnit = new Unit(reader["JID"].ToString(), reader["JNAME"].ToString(), reader["JMN"].ToString());
-                            var ingerdient = new Ingredient(name, id, ingredientQuantity, ingredientUnit);
+                            IUnit ingredientUnit = new Unit(reader["JID"].ToString(), reader["JNAME"].ToString(), reader["JMN"].ToString(), reader["JISL"].ToString() == "1");
+                            var ingerdient = new Ingredient(name, id, ingredientQuantity * Convert.ToDecimal(Math.Pow(10, ingredientUnit.Counter)), ingredientUnit);
                             result.Last().Ingredients.Add(ingerdient);
                             
                         }

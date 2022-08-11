@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NutritionCreatorFramework.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Interfaces
 {
     public interface ILabelGenerator
     {
-        void GenerateLabel(string path);
+        void GenerateLabel(string path, IList<IIngredient> ingredients);
     }
 }

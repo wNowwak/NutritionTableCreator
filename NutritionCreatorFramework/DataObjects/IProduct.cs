@@ -13,6 +13,7 @@ namespace NutritionCreatorFramework.DataObjects
         IList<IIngredient>  Ingredients { get; }
         decimal Quantity { get; }
         IUnit Unit { get; }
+        IEnumerable<IIngredient> GetIngredients();
 
     }
 }

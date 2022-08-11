@@ -11,5 +11,6 @@ namespace NutritionCreatorFramework.Units
         int Id { get; }
         string Name { get; }
         int Counter { get; }
+        bool IsLiquid { get; }
     }
 }

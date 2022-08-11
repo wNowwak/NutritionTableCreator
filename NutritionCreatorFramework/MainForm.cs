@@ -16,6 +16,7 @@ namespace NutritionCreatorFramework
         private readonly IUserLogger _logger;
         private readonly ISqlConnector _sqlConnector;
         private readonly ISqlRepository _sqlRepository;
+        private readonly NewPath _pathGetter;
         public MainForm()
         {
             InitializeComponent();
@@ -27,6 +28,7 @@ namespace NutritionCreatorFramework
                 _sqlConnector = kernel.Get<ISqlConnector>();
                 _sqlRepository = kernel.Get<ISqlRepository>();
             }
+            _pathGetter = new NewPath();
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -37,7 +39,7 @@ namespace NutritionCreatorFramework
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            _generator.GenerateLabel(@"C:\Users\nowwa\source\repos\NutritionCreator");
+            //_generator.GenerateLabel(@"C:\Users\nowwa\source\repos\NutritionCreator");
         }
 
         private void btnDefNutrition_Click(object sender, EventArgs e)
@@ -48,13 +50,12 @@ namespace NutritionCreatorFramework
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var newPath = new NewPath();
-            newPath.ShowDialog();
+            _pathGetter.ShowDialog();
         }
 
         private void btnAddRecipt_Click(object sender, EventArgs e)
         {
-            var newPath = new NewComponent(_sqlRepository);
+            var newPath = new NewComponent(_sqlRepository, _generator, _pathGetter.GetPath());
             newPath.ShowDialog();
         }
     }

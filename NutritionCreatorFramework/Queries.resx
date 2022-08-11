@@ -127,4 +127,7 @@
   <data name="GetProducts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>queries\getproducts.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="GetUnits" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>queries\getunits.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

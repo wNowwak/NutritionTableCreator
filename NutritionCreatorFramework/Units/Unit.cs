@@ -11,12 +11,14 @@ namespace NutritionCreatorFramework.Units
         public int Id { get; }
         public string Name { get;}
         public int Counter { get; }
-        public Unit(string id, string name, string counter)
+        public bool IsLiquid { get; }
+        public Unit(string id, string name, string counter, bool isLiquid)
         {
             Id = int.Parse(id);
             Name = name;
             Counter = int.Parse(counter);
-        }
+            IsLiquid = isLiquid;
+         }
 
 
 

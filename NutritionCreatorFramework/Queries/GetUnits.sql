@@ -1,0 +1,1 @@
+﻿SELECT Jednostka_Id, Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid FROM Jednostki ORDER BY Jednostka_IsLiquid, Jednostka_Mnoznik

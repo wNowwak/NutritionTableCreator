@@ -81,11 +81,35 @@ namespace NutritionCreatorFramework {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT Produkt_Id, Produkt_Nazwa FROM Produkty.
+        ///   Looks up a localized string similar to SELECT pr.produkt_id AS PRID,
+        ///       produkt_nazwa AS NAZWA,
+        ///	   sk.Skladnik_Id AS SKLID,
+        ///       sk.skaldnik_nazwa AS SKL_NAZWA,
+        ///       re.ilosc AS ILOSC,
+        ///       jeM.jednostka_id AS JID,
+        ///       jeM.jednostka_mnoznik AS JMN,
+        ///       jeM.jednostka_nazwa JNAME,
+        ///       re.ilosc_gotowa AS QTY,
+        ///       jeT.jednostka_id AS JMID,
+        ///       jeT.jednostka_mnoznik JMMN,
+        ///       jeT.jednostka_nazwa AS JMNAME
+        ///FROM   produkty pr
+        ///       JOIN receptury re
+        ///         ON pr.produkt_id = re.produkt_id
+        ///       JOIN sklad [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetProducts {
             get {
                 return ResourceManager.GetString("GetProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT Jednostka_Id, Jednostka_Nazwa, Jednostka_Mnoznik, Jednostka_IsLiquid FROM Jednostki ORDER BY Jednostka_IsLiquid, Jednostka_Mnoznik.
+        /// </summary>
+        internal static string GetUnits {
+            get {
+                return ResourceManager.GetString("GetUnits", resourceCulture);
             }
         }
     }
