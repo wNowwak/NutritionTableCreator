@@ -89,6 +89,8 @@
     <Compile Include="DataBaseConnector.Designer.cs">
       <DependentUpon>DataBaseConnector.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataObjects\Box.cs" />
+    <Compile Include="DataObjects\IBox.cs" />
     <Compile Include="DataObjects\IIngredient.cs" />
     <Compile Include="DataObjects\Ingredient.cs" />
     <Compile Include="DataObjects\IProduct.cs" />

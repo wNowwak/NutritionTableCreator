@@ -1,10 +1,13 @@
 ﻿using NutritionCreatorFramework.DataObjects;
 using NutritionCreatorFramework.HtmlFactory;
 using NutritionCreatorFramework.LabelToPngGenerator.Interfaces;
+using NutritionCreatorFramework.Units;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using TheArtOfDev.HtmlRenderer.WinForms;
 
 namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
@@ -18,15 +21,16 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
             _htmlGenerator = htmlGenerator;
         }
 
-        public void GenerateLabel(string path, IList<IIngredient> ingredients)
+        public void GenerateLabel(string path, IList<IIngredient> ingredients, IBox box, IBox totalProduct, decimal portionCount, IEnumerable<IUnit> units)
         {
+            var countOfBoxes = CountBoxes(box, totalProduct);
             var htmlContent = string.Empty;
             using (var reader = new StreamReader(path+@"\label.html"))
             {
                 htmlContent = reader.ReadToEnd().Trim();
             }
-
-            htmlContent = htmlContent.Replace("**ROWS**", CreateContent(ingredients));
+            var content = CreateContent(CreatePortion(ingredients, portionCount, countOfBoxes, units));
+            htmlContent = htmlContent.Replace("**ROWS**", content);
 
 
             Image image = HtmlRender.RenderToImage(htmlContent);
@@ -38,6 +42,69 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
         private string CreateContent(IList<IIngredient> ingredients)
         {
             return _htmlGenerator.GetHtml(ingredients);
+        }
+        private IList<IIngredient> CreatePortion(IList<IIngredient> ingredients, decimal countOfPortion, decimal countOfBoxes, IEnumerable<IUnit> units)
+        {
+            var result = new List<IIngredient>();  
+            foreach (var ingredient in ingredients)
+            {
+                var ing = new Ingredient(ingredient.Name, ingredient.Id, ConvertToNewUnit(ingredient.Quantity / (countOfPortion * countOfBoxes), out var newUnit, units), newUnit);
+                result.Add(ing);
+            }
+            return result;
+        }
+        private IIngredient CreateBox()
+        {
+            return null ;
+        }
+        private decimal CountBoxes(IBox box, IBox totalBox)
+        {
+            var result = (totalBox.Size * (decimal)(Math.Pow(10, (double)totalBox.Unit.Counter))) / (box.Size * (decimal)(Math.Pow(10, (double)box.Unit.Counter)));
+            return result;
+        }
+
+        private decimal ConvertToNewUnit(decimal quantity, out IUnit unit, IEnumerable<IUnit> units)
+        {
+            unit = null;
+            decimal counter;
+            if (quantity >= Convert.ToDecimal(Math.Pow(10, 3)))
+            {
+                counter = 1000;
+                quantity = quantity / counter;
+
+                unit = GetUnit(units,3);
+                return quantity;
+            }
+            else if (quantity < Convert.ToDecimal(Math.Pow(10, 3)) && quantity >= Convert.ToDecimal(Math.Pow(10, 0)))
+            {
+                unit = GetUnit(units, 0);
+                return quantity;
+            }
+            else if (quantity < Convert.ToDecimal(Math.Pow(10, 0)) && quantity >= Convert.ToDecimal(Math.Pow(10, -3)))
+            {
+                counter = Convert.ToDecimal(Math.Pow(10, -3));
+                quantity = quantity / counter;
+                unit = GetUnit(units, -3);
+                return quantity;
+            }
+            else
+            {
+                counter = Convert.ToDecimal(Math.Pow(10, -6));
+                quantity = quantity / counter;
+                unit = GetUnit(units, -6);
+                return quantity;
+            }
+
+
+
+        }
+        private IUnit GetUnit(IEnumerable<IUnit> units, int counter)
+        {
+            return units.Where(x => x.Counter == counter && !x.IsLiquid).FirstOrDefault();
+        }
+        private IUnit GetUnit(IEnumerable<IUnit> units, string name)
+        {
+            return units.Where(x => x.Name == name).FirstOrDefault();
         }
     }
 }

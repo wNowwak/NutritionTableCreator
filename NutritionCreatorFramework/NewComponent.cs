@@ -103,7 +103,12 @@ namespace NutritionCreatorFramework
                         
                     }
                 }
-                _generator.GenerateLabel(_workingDirectoryPath, ingredients);
+                var readyMass = StringExtensionMethod.GetDecimalFromString(txtReadyMass.Text);
+                var readyUnit = GetUnit(unitDDL.Text);
+                var boxMass = StringExtensionMethod.GetDecimalFromString(txtBoxSize.Text);
+                var boxUnit = GetUnit(this.boxUnit.Text);
+                var portionCount = StringExtensionMethod.GetDecimalFromString(txtProtionCount.Text);
+                _generator.GenerateLabel(_workingDirectoryPath, ingredients, new Box(boxUnit, boxMass),new Box(readyUnit, readyMass), portionCount, this.units);
 
             }
             else

@@ -1,0 +1,15 @@
+﻿using NutritionCreatorFramework.Units;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NutritionCreatorFramework.DataObjects
+{
+    public interface IBox
+    {
+        IUnit Unit { get; }
+        decimal Size { get; }
+    }
+}
