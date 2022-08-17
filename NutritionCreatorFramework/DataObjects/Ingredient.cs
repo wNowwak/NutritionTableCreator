@@ -17,6 +17,7 @@ namespace NutritionCreatorFramework.DataObjects
 
         public IUnit Unit {get;}
 
+
         public Ingredient(string name, int id, decimal quantity, IUnit unit)
         {
             Name = name;

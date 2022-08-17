@@ -12,6 +12,7 @@ namespace NutritionCreatorFramework.Units
         string Name { get; }
         int Counter { get; }
         bool IsLiquid { get; }
+        decimal CounterValue { get; }
 
         string ToString();
     }

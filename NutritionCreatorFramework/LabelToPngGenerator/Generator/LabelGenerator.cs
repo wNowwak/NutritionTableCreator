@@ -29,7 +29,8 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
             {
                 htmlContent = reader.ReadToEnd().Trim();
             }
-            var content = CreateContent(CreatePortion(ingredients, portionCount, countOfBoxes, units));
+            var content = CreateContent(CreatePortion(ingredients, portionCount, countOfBoxes, units), CreateBox(ingredients, countOfBoxes, units), box);
+            
             htmlContent = htmlContent.Replace("**ROWS**", content);
 
 
@@ -39,23 +40,29 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
         }
 
 
-        private string CreateContent(IList<IIngredient> ingredients)
+        private string CreateContent(IList<IIngredient> ingredientsPortion, IList<IIngredient> ingredientsBox, IBox box)
         {
-            return _htmlGenerator.GetHtml(ingredients);
+            return _htmlGenerator.GetHtml(ingredientsPortion, ingredientsBox,box);
         }
         private IList<IIngredient> CreatePortion(IList<IIngredient> ingredients, decimal countOfPortion, decimal countOfBoxes, IEnumerable<IUnit> units)
         {
             var result = new List<IIngredient>();  
             foreach (var ingredient in ingredients)
             {
-                var ing = new Ingredient(ingredient.Name, ingredient.Id, ConvertToNewUnit(ingredient.Quantity / (countOfPortion * countOfBoxes), out var newUnit, units), newUnit);
+                var ing = new Ingredient(ingredient.Name, ingredient.Id, ConvertToNewUnit((ingredient.Quantity * ingredient.Unit.CounterValue) / (countOfPortion * countOfBoxes), out var newUnit, units), newUnit);
                 result.Add(ing);
             }
             return result;
         }
-        private IIngredient CreateBox()
+        private IList<IIngredient> CreateBox(IList<IIngredient> ingredients, decimal countOfBoxes, IEnumerable<IUnit> units)
         {
-            return null ;
+            var result = new List<IIngredient>();
+            foreach (var ingredient in ingredients)
+            {
+                var ing = new Ingredient(ingredient.Name, ingredient.Id, ConvertToNewUnit((ingredient.Quantity * ingredient.Unit.CounterValue) / (countOfBoxes), out var newUnit, units), newUnit);
+                result.Add(ing);
+            }
+            return result;
         }
         private decimal CountBoxes(IBox box, IBox totalBox)
         {

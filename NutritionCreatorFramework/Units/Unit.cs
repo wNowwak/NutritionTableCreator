@@ -12,11 +12,13 @@ namespace NutritionCreatorFramework.Units
         public string Name { get;}
         public int Counter { get; }
         public bool IsLiquid { get; }
+        public decimal CounterValue { get; }
         public Unit(string id, string name, string counter, bool isLiquid)
         {
             Id = int.Parse(id);
             Name = name;
             Counter = int.Parse(counter);
+            CounterValue = Convert.ToDecimal(Math.Pow(10, Counter));
             IsLiquid = isLiquid;
          }
 
