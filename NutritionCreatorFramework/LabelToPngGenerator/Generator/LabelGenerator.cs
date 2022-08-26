@@ -21,7 +21,7 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
             _htmlGenerator = htmlGenerator;
         }
 
-        public void GenerateLabel(string path, IList<IIngredient> ingredients, IBox box, IBox totalProduct, decimal portionCount, IEnumerable<IUnit> units)
+        public void GenerateLabel(string path, IList<IIngredient> ingredients, IBox box, IBox totalProduct, decimal portionCount, IEnumerable<IUnit> units, string labelName)
         {
             var countOfBoxes = CountBoxes(box, totalProduct);
             var htmlContent = string.Empty;
@@ -35,7 +35,7 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
 
 
             Image image = HtmlRender.RenderToImage(htmlContent);
-            image.Save("image.png", ImageFormat.Png);
+            image.Save($"{path}{labelName}", ImageFormat.Png);
 
         }
 

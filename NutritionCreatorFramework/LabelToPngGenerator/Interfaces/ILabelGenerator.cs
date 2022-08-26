@@ -10,6 +10,6 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Interfaces
 {
     public interface ILabelGenerator
     {
-        void GenerateLabel(string path, IList<IIngredient> ingredients, IBox box, IBox totalProduct, decimal portionCount, IEnumerable<IUnit> units);
+        void GenerateLabel(string path, IList<IIngredient> ingredients, IBox box, IBox totalProduct, decimal portionCount, IEnumerable<IUnit> units, string labelName);
     }
 }

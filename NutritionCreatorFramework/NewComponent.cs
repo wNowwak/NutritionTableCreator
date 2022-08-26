@@ -35,7 +35,7 @@ namespace NutritionCreatorFramework
             InitializeComponent();
             SetUnits();
             AddComponent();
-            HideUnusedLabels();
+            //HideUnusedLabels();
         }
         private object[] getUnitsName()
         {
@@ -71,6 +71,7 @@ namespace NutritionCreatorFramework
             if(newId > 0)
             {
                 
+                    
                 var totalUnitId = units.Where(unit => unit.Name.Equals(unitDDL.Text ?? String.Empty)).FirstOrDefault()?.Id ?? 0;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
@@ -108,7 +109,7 @@ namespace NutritionCreatorFramework
                 var boxMass = StringExtensionMethod.GetDecimalFromString(txtBoxSize.Text);
                 var boxUnit = GetUnit(this.boxUnit.Text);
                 var portionCount = StringExtensionMethod.GetDecimalFromString(txtProtionCount.Text);
-                _generator.GenerateLabel(_workingDirectoryPath, ingredients, new Box(boxUnit, boxMass),new Box(readyUnit, readyMass), portionCount, this.units);
+                _generator.GenerateLabel($"{_workingDirectoryPath}", ingredients, new Box(boxUnit, boxMass),new Box(readyUnit, readyMass), portionCount, this.units, $"/{ txtProductName.Text.Trim()}.jpg");
 
             }
             else
@@ -220,19 +221,19 @@ namespace NutritionCreatorFramework
 
         private void unitDDL_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var ddl = (ComboBox)sender;
-            var unit = GetUnit(ddl.SelectedItem.ToString());
-            if(unit != null)
-            {
-                    lblBoxSize.Visible = unit.IsLiquid;
-                    lblPortionCount.Visible = unit.IsLiquid;
-                    txtProtionCount.Visible = unit.IsLiquid;
-                    txtBoxSize.Visible = unit.IsLiquid;
-                    boxUnit.Visible = unit.IsLiquid;
+            //var ddl = (ComboBox)sender;
+            //var unit = GetUnit(ddl.SelectedItem.ToString());
+            //if(unit != null)
+            //{
+            //        lblBoxSize.Visible = unit.IsLiquid;
+            //        lblPortionCount.Visible = unit.IsLiquid;
+            //        txtProtionCount.Visible = unit.IsLiquid;
+            //        txtBoxSize.Visible = unit.IsLiquid;
+            //        boxUnit.Visible = unit.IsLiquid;
 
                 
 
-            }
+            //}
             
         }
         private void HideUnusedLabels()
