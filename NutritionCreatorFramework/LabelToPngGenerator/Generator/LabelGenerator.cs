@@ -2,6 +2,7 @@
 using NutritionCreatorFramework.HtmlFactory;
 using NutritionCreatorFramework.LabelToPngGenerator.Interfaces;
 using NutritionCreatorFramework.Units;
+using NutritionCreatorFramework.UserLogger.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,10 +16,11 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
     public class LabelGenerator : ILabelGenerator
     {
         private readonly HtmlGenerator _htmlGenerator;
-
-        public LabelGenerator(HtmlGenerator htmlGenerator)
+        private readonly IUserLogger _logger;
+        public LabelGenerator(HtmlGenerator htmlGenerator, ILoggerFactory factory)
         {
             _htmlGenerator = htmlGenerator;
+            _logger = factory.Create("file");
         }
 
         public void GenerateLabel(string path, IList<IIngredient> ingredients, IBox box, IBox totalProduct, decimal portionCount, IEnumerable<IUnit> units, string labelName)
@@ -32,7 +34,7 @@ namespace NutritionCreatorFramework.LabelToPngGenerator.Generator
             var content = CreateContent(CreatePortion(ingredients, portionCount, countOfBoxes, units), CreateBox(ingredients, countOfBoxes, units), box);
             
             htmlContent = htmlContent.Replace("**ROWS**", content);
-
+            _logger.Log(htmlContent);
 
             Image image = HtmlRender.RenderToImage(htmlContent);
             image.Save($"{path}{labelName}", ImageFormat.Png);

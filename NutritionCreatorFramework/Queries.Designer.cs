@@ -81,26 +81,56 @@ namespace NutritionCreatorFramework {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT pr.produkt_id AS PRID,
-        ///       produkt_nazwa AS NAZWA,
-        ///	   sk.Skladnik_Id AS SKLID,
-        ///       sk.skaldnik_nazwa AS SKL_NAZWA,
-        ///       re.ilosc AS ILOSC,
-        ///       jeM.jednostka_id AS JID,
-        ///       jeM.jednostka_mnoznik AS JMN,
-        ///       jeM.jednostka_nazwa JNAME,
-        ///       re.ilosc_gotowa AS QTY,
-        ///       jeT.jednostka_id AS JMID,
-        ///       jeT.jednostka_mnoznik JMMN,
-        ///       jeT.jednostka_nazwa AS JMNAME
-        ///FROM   produkty pr
-        ///       JOIN receptury re
-        ///         ON pr.produkt_id = re.produkt_id
-        ///       JOIN sklad [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to SELECT pr.produkt_id          AS PRID,
+        ///       produkt_nazwa          AS NAZWA,
+        ///       sk.skladnik_id         AS SKLID,
+        ///       sk.skaldnik_nazwa      AS SKL_NAZWA,
+        ///       re.ilosc               AS ILOSC,
+        ///       jeM.jednostka_id       AS JID,
+        ///       jeM.jednostka_mnoznik  AS JMN,
+        ///       jeM.jednostka_nazwa    AS JNAME,
+        ///       jeM.jednostka_isliquid AS JISL,
+        ///       re.ilosc_gotowa        AS QTY,
+        ///       jeT.jednostka_id       AS JMID,
+        ///       jeT.jednostka_mnoznik  AS JMMN,
+        ///       jeT.jednostka_nazwa [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string getProduct {
+            get {
+                return ResourceManager.GetString("getProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT pr.produkt_id          AS PRID,
+        ///       produkt_nazwa          AS NAZWA,
+        ///       sk.skladnik_id         AS SKLID,
+        ///       sk.skaldnik_nazwa      AS SKL_NAZWA,
+        ///       re.ilosc               AS ILOSC,
+        ///       jeM.jednostka_id       AS JID,
+        ///       jeM.jednostka_mnoznik  AS JMN,
+        ///       jeM.jednostka_nazwa    AS JNAME,
+        ///       jeM.jednostka_isliquid AS JISL,
+        ///       re.ilosc_gotowa        AS QTY,
+        ///       jeT.jednostka_id       AS JMID,
+        ///       jeT.jednostka_mnoznik  AS JMMN,
+        ///       jeT.jednostka_nazwa [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetProducts {
             get {
                 return ResourceManager.GetString("GetProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT DISTINCT pr.Produkt_Nazwa AS Name, pr.Produkt_Id AS Id FROM Receptury rc
+        ///JOIN Produkty pr ON rc.Produkt_Id = pr.Produkt_Id 
+        ///ORDER BY pr.Produkt_Nazwa
+        ///.
+        /// </summary>
+        internal static string GetReciepes {
+            get {
+                return ResourceManager.GetString("GetReciepes", resourceCulture);
             }
         }
         

@@ -10,11 +10,18 @@ namespace NutritionCreatorFramework.UserLogger.Loggers
 {
     internal class FileLogger : IUserLogger
     {
+        private readonly string _path;
+
+        public FileLogger(string path)
+        {
+            _path = path;
+        }
+
         public void Log(string message)
         {
             try
             {
-                using (var sw = new StreamWriter("errors.txt", true))
+                using (var sw = new StreamWriter($"{_path}/errors.txt", true))
                 {
                     sw.WriteLine(message);
                 }

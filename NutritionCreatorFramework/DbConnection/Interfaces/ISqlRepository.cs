@@ -14,6 +14,8 @@ namespace NutritionCreatorFramework.DbConnection.Interfaces
         IEnumerable<IUnit> GetUnits();
         IEnumerable<string> GetComponents();
         IEnumerable<IProduct> GetProducts();
+        IDictionary<int, string> GetReciepes();
+        IProduct GetIngredientsForProduct(int productId);
 
         bool AddComponent();
 

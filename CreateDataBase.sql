@@ -68,7 +68,7 @@ go
 /*==============================================================*/
 create table Produkty (
    Produkt_Id           int         IDENTITY(1,1)         not null,
-   Produkt_Nazwa        varchar(1024)        not null,
+   Produkt_Nazwa        varchar(1024)  UNIQUE       not null,
    constraint PK_PRODUKTY primary key nonclustered (Produkt_Id)
 )
 go
@@ -109,7 +109,7 @@ go
 /*==============================================================*/
 create table Skladniki (
    Skladnik_Id          int        IDENTITY(1,1)          not null,
-   Skaldnik_Nazwa       varchar(1024)        not null,
+   Skaldnik_Nazwa       varchar(1024)   UNIQUE     not null,
    constraint PK_SKLADNIKI primary key nonclustered (Skladnik_Id)
 )
 go

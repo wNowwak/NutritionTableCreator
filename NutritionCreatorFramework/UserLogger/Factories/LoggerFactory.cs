@@ -12,11 +12,12 @@ namespace NutritionCreatorFramework.UserLogger.Factories
     {
         public IUserLogger Create(string type)
         {
+
             switch (type)
             {
                 case "file":
                 default:
-                    return new FileLogger();
+                    return new FileLogger(new NewPath().GetPath());
             }
         }
     }

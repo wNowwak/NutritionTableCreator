@@ -33,6 +33,8 @@
             this.btnDefNutrition = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnAddRecipt = new System.Windows.Forms.Button();
+            this.btnCheckRecipe = new System.Windows.Forms.Button();
+            this.btnAddProtein = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -53,6 +55,7 @@
             this.btnGenerate.TabIndex = 1;
             this.btnGenerate.Text = "Generuj etykietę";
             this.btnGenerate.UseVisualStyleBackColor = true;
+            this.btnGenerate.Visible = false;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // btnDefNutrition
@@ -85,11 +88,32 @@
             this.btnAddRecipt.UseVisualStyleBackColor = true;
             this.btnAddRecipt.Click += new System.EventHandler(this.btnAddRecipt_Click);
             // 
+            // btnCheckRecipe
+            // 
+            this.btnCheckRecipe.Location = new System.Drawing.Point(12, 71);
+            this.btnCheckRecipe.Name = "btnCheckRecipe";
+            this.btnCheckRecipe.Size = new System.Drawing.Size(187, 23);
+            this.btnCheckRecipe.TabIndex = 5;
+            this.btnCheckRecipe.Text = "Podgląd receptur";
+            this.btnCheckRecipe.UseVisualStyleBackColor = true;
+            this.btnCheckRecipe.Click += new System.EventHandler(this.btnCheckRecipe_Click);
+            // 
+            // btnAddProtein
+            // 
+            this.btnAddProtein.Location = new System.Drawing.Point(13, 101);
+            this.btnAddProtein.Name = "btnAddProtein";
+            this.btnAddProtein.Size = new System.Drawing.Size(186, 23);
+            this.btnAddProtein.TabIndex = 6;
+            this.btnAddProtein.Text = "Dodaj białko";
+            this.btnAddProtein.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnAddProtein);
+            this.Controls.Add(this.btnCheckRecipe);
             this.Controls.Add(this.btnAddRecipt);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnDefNutrition);
@@ -108,6 +132,8 @@
         private System.Windows.Forms.Button btnDefNutrition;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnAddRecipt;
+        private System.Windows.Forms.Button btnCheckRecipe;
+        private System.Windows.Forms.Button btnAddProtein;
     }
 }
 
