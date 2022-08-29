@@ -20,6 +20,8 @@ namespace NutritionCreatorFramework.DbConnection.Interfaces
         bool AddComponent();
 
         bool AddProduct(string query, IEnumerable<SqlParameter> sqlParameter, out int newId);
-        
+        bool SaveReciepeToDataBase(int newId, string productName, string massUnit, decimal productContent, int totalUnitId, string readyMass);
+
+
     }
 }

@@ -64,5 +64,11 @@ namespace NutritionCreatorFramework
             var listAllProducts = new ListAllProducts(_sqlRepository);
             listAllProducts.ShowDialog();
         }
+
+        private void btnAddProtein_Click(object sender, EventArgs e)
+        {
+            var addProtein = new AddProtein(_sqlRepository);
+            addProtein.ShowDialog();
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace NutritionCreatorFramework.DataObjects
             var newIngredients = new List<IIngredient>();
             foreach (var item in Ingredients)
             {
-                var ingredient = new Ingredient(item.Name, item.Id, item.Quantity * Quantity, item.Unit);
+                var ingredient = new Ingredient(item.Name, item.Id, item.Quantity , item.Unit);
                 newIngredients.Add(ingredient);
             }
             return newIngredients;

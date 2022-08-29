@@ -83,6 +83,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddProtein.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddProtein.Designer.cs">
+      <DependentUpon>AddProtein.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataBaseConnector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     <Compile Include="HtmlFactory\HtmlCell.cs" />
     <Compile Include="HtmlFactory\HtmlRow.cs" />
     <Compile Include="HtmlFactory\HtmlGenerator.cs" />
+    <EmbeddedResource Include="AddProtein.resx">
+      <DependentUpon>AddProtein.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataBaseConnector.resx">
       <DependentUpon>DataBaseConnector.cs</DependentUpon>
     </EmbeddedResource>

@@ -84,7 +84,7 @@ namespace NutritionCreatorFramework
                     {
                         if (Components.Contains(productName))
                         {
-                            result = SaveReciepeToDataBase(newId, productName, massUnit, productContent, totalUnitId);
+                            result = _sqlRepository.SaveReciepeToDataBase(newId, productName, massUnit, productContent, totalUnitId, txtReadyMass?.Text);
                             ingredients.Add(new Ingredient(productName, newId, productContent, unitProduct));
                         }
                         else
@@ -95,8 +95,9 @@ namespace NutritionCreatorFramework
                                 foreach (var ingerdient in product.GetIngredients())
                                 {
                                     decimal qty = Convert.ToDecimal(Math.Pow(10, units.Where(x => x.Name == massUnit).Select(x => x.Counter).FirstOrDefault())) * ingerdient.Quantity * productContent;
+                                    qty = qty / product.Quantity;
                                     qty = ConvertToNewUnit(qty, out IUnit newUnit);
-                                    result = SaveReciepeToDataBase(newId, ingerdient.Name, newUnit.Name, qty, totalUnitId);
+                                    result = _sqlRepository.SaveReciepeToDataBase(newId, ingerdient.Name, newUnit.Name, qty, totalUnitId, txtReadyMass?.Text);
                                     ingredients.Add(new Ingredient(ingerdient.Name, newId, qty, newUnit));
                                 }
                             }
@@ -128,52 +129,6 @@ namespace NutritionCreatorFramework
            
         }
 
-
-        private SqlParameter CreateSqlParameter(string name, dynamic value, string type, int size = 0)
-        {
-            SqlParameter parameter = new SqlParameter();
-            parameter.ParameterName = name;
-            parameter.Value = value;
-            if (type == "int")
-                parameter.DbType = DbType.Int32;
-            else if (type == "string")
-            {
-                parameter.DbType = DbType.String;
-                parameter.Size = size;
-            }
-            else if (type == "decimal")
-            {
-                parameter.DbType = DbType.Decimal;
-                parameter.Precision = 10;
-                parameter.Scale = 4;
-            }
-            return parameter;
-        }
-
-        private bool SaveReciepeToDataBase(int newId, string productName, string massUnit, decimal productContent, int totalUnitId)
-        {
-            var parameters = new List<SqlParameter>();
-            string query = Queries.AddReciepe;
-            var totalMass = StringExtensionMethod.GetDecimalFromString(txtReadyMass.Text ?? String.Empty);
-
-            parameters.Add(CreateSqlParameter("@PRODUCT_ID", newId, "int"));
-            parameters.Add(CreateSqlParameter("@SKLADNIK_NAZWA", productName, "string", 1024));
-            parameters.Add(CreateSqlParameter("@UNIT_ID", units.Where(uni => uni.Name.Equals(massUnit)).FirstOrDefault().Id, "int"));
-            parameters.Add(CreateSqlParameter("@COMPONENT_QUANTITY", productContent, "decimal"));
-            parameters.Add(CreateSqlParameter("@TOTAL_MASS", totalMass, "decimal"));
-            parameters.Add(CreateSqlParameter("@TOTAL_UNIT_ID", totalUnitId, "int"));
-
-
-            var result = _sqlRepository.AddProduct(query, parameters, out int x);
-            if (result)
-            {
-                lblError.Visible = true;
-                lblError.Text = "Dodano pomyślnie";
-                lblError.ForeColor = Color.Green;
-                this.Refresh();
-            }
-            return result;
-        }
 
         private decimal ConvertToNewUnit(decimal quantity, out IUnit unit)
         {
